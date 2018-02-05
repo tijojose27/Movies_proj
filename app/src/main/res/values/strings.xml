@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Movies</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="popular">Popular</string>
+    <string name="image_of_movie">Image of Movie</string>
+    <string name="movie_thumbnail">movie thumbnail</string>
+    <string name="no_internet_image">no internet image</string>
+    <string name="no_internet_connection">NO INTERNET CONNECTION</string>
+    <string name="trailers_label">Trailers</string>
+</resources>
