@@ -1,18 +1,20 @@
 package com.example.tijo.movies_proj;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tijo.movies_proj.data.Movie;
+import com.example.tijo.movies_proj.databinding.ActivityDetailsBinding;
 import com.squareup.picasso.Picasso;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    ImageView ivMovie;
-    TextView tvTitle, tvRelaseDate, tvSynopsis, tvUserRating;
+    //DATABINDING
+    ActivityDetailsBinding detailsBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,24 +27,18 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Movie currMovie = intent.getParcelableExtra("Movie Item");
 
-        //ASSIGNING THE VIEWS PROGRAMMATICALLY
-        ivMovie = findViewById(R.id.image_view_details);
-        tvTitle = findViewById(R.id.text_view_title);
-        tvRelaseDate = findViewById(R.id.text_view_release_date);
-        tvSynopsis = findViewById(R.id.text_view_synopsis);
-        tvUserRating = findViewById(R.id.text_view_user_rating);
+        // SETTING UP DATA IN THE VIEW USING THE BINDING
+        detailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_details);
 
-
-        Picasso.with(this).load(currMovie.getImgUrlOriginal()).into(ivMovie);
-
-        //SETTING VIEWS
-        tvTitle.setText(currMovie.getTitle());
-        tvRelaseDate.setText(currMovie.getReleaseDate());
-        tvSynopsis.setText(currMovie.getSynopsis());
+        detailsBinding.textViewTitle.setText(currMovie.getTitle());
+        detailsBinding.textViewReleaseDate.setText(currMovie.getReleaseDate());
 
         String rating = currMovie.getRating().toString()+" / 10";
-        tvUserRating.setText(rating);
-//        tvUserRating.setText(currMovie.getRating().toString());
+
+        detailsBinding.textViewUserRating.setText(rating);
+        detailsBinding.textViewSynopsis.setText(currMovie.getSynopsis());
+
+        Picasso.with(this).load(currMovie.getImgUrlOriginal()).into(detailsBinding.imageViewDetails);
 
     }
 }
