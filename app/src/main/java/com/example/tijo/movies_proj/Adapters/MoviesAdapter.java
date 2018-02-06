@@ -69,6 +69,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     //CREATING VIEW HOLDER
     class MoviesViewHolder extends RecyclerView.ViewHolder{
+
+        private final
+
         ImageView imageView;
         TextView textViewTitle;
 
