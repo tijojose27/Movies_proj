@@ -1,6 +1,7 @@
 package com.example.tijo.movies_proj.Utility;
 
 import com.example.tijo.movies_proj.data.Movie;
+import com.example.tijo.movies_proj.data.Reviews;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,10 +23,14 @@ public class GetMovies {
 
     final static String IMAGE_ORIGINAL = "w780/";
 
-    //METHOD TO CONVERT JSON TO ARRAY
-    public static ArrayList<Movie> jsonToArray(String json) {
+    public static ArrayList<Movie> currMovie;
 
-        ArrayList<Movie> currMovies = new ArrayList<>();
+    public static ArrayList<Reviews> currReview;
+
+    //METHOD TO CONVERT JSON TO ARRAY
+    public static ArrayList<Movie> movieToArray(String json) {
+
+        currMovie = new ArrayList<>();
 
         JSONObject reader = null;
         try {
@@ -37,6 +42,7 @@ public class GetMovies {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject currObj = results.getJSONObject(i);
 
+                String id = currObj.getString("id");
                 String title = currObj.getString("title");
                 String summary = currObj.getString("overview");
                 String release = currObj.getString("release_date");
@@ -59,7 +65,7 @@ public class GetMovies {
 
                 String imageOrgURL = IMAGE_BASE_URL + IMAGE_ORIGINAL + url;
 
-                currMovies.add(new Movie(title, summary, imageThumbURL, rating, releaseYear, imageOrgURL));
+                currMovie.add(new Movie(id, title, summary, imageThumbURL, rating, releaseYear, imageOrgURL));
 
             }
 
@@ -67,6 +73,33 @@ public class GetMovies {
             e.printStackTrace();
         }
 
-        return currMovies;
+        return currMovie;
+    }
+
+    public static ArrayList<Reviews> reviewsToArray(String json){
+        currReview = new ArrayList<>();
+
+        JSONObject reader = null;
+        try {
+            reader = new JSONObject(json);
+            JSONArray results = reader.getJSONArray("results");
+            //String result = results.toString();
+
+            //CONVERTING JSON AND POPULATING ARRAYLIST
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject currObj = results.getJSONObject(i);
+
+                String author = currObj.getString("author");
+                String content = currObj.getString("overview");
+
+                currReview.add(new Reviews(author, content));
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return currReview;
     }
 }

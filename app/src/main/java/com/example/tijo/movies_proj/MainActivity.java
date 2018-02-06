@@ -20,25 +20,17 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     //INSERT YOUR API KEY HERE
-    final String APIKEY = "api_key=8628eac7c7875b9b1a42093545772f7b";
+    public final String APIKEY = "api_key=8628eac7c7875b9b1a42093545772f7b";
 
-    final String IMDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
+    public final String IMDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
 
     public String order = "";
-
-    public String jsonMovie = "";
 
     ArrayList<Movie> myMovies;
 
@@ -67,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateMovie() {
         if (isConnected()) {
-            myMovies.clear();
             getMovies();
         } else {
             recyclerView.setVisibility(View.INVISIBLE);
@@ -100,10 +91,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public String getMovies() {
+    public void getMovies() {
+
+        myMovies.clear();
 
         //CHECKING NETWORK STATE
-
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -125,52 +117,14 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            jsonMovie = json + "";
-                            myMovies = GetMovies.jsonToArray(jsonMovie);
+                            myMovies = GetMovies.movieToArray(json);
                             updateUI();
                         }
                     });
                 }
             }
         });
-        return jsonMovie;
     }
-
-    //METHOD TO GET MOVIES FROM URL
-//    public void getMovies() {
-//
-//        //CHECKING NETWORK STATE
-//
-//        OkHttpClient client = new OkHttpClient();
-//
-//        Request request = new Request.Builder()
-//                .url(IMDB_BASE_URL + order + APIKEY)
-//                .build();
-//
-//        client.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(Request request, IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Response response) throws IOException {
-//                if (!response.isSuccessful()) {
-//                    throw new IOException("Unexpected code " + response);
-//                } else {
-//                    final String json = response.body().string();
-//                    MainActivity.this.runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            jsonMovie = json + "";
-//                            myMovies = GetMovies.jsonToArray(jsonMovie);
-//                            updateUI();
-//                        }
-//                    });
-//                }
-//            }
-//        });
-//    }
 
     //METHOD TO CHECK NETWORK CONNECTIVITY
     private boolean isConnected() {
