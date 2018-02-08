@@ -79,6 +79,7 @@ public class GetMovies {
         return currMovie;
     }
 
+    //CONVERT REVIEW JSON TO ARRAY LIST
     public static ArrayList<Reviews> reviewsToArray(String json){
         currReview = new ArrayList<>();
 
@@ -107,6 +108,7 @@ public class GetMovies {
     }
 
 
+    //CONVERT TRAILER JSON TO ARRAY LIST
     public static ArrayList<Trailers> tailersToArray(String json){
         currTrailer = new ArrayList<>();
         JSONObject reader = null;
@@ -120,9 +122,10 @@ public class GetMovies {
                 JSONObject currObj = results.getJSONObject(i);
 
                 String key = currObj.getString("key");
-                String type = currObj.getString("type");
+                String name = currObj.getString("name");
 
-                currTrailer.add(new Trailers(type, key));
+
+                currTrailer.add(new Trailers(name, key));
 
             }
 

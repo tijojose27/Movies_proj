@@ -9,17 +9,17 @@ import android.os.Parcelable;
 
 public class Trailers implements Parcelable{
 
-    public String type;
+    public String name;
     public String key;
     public String BASE_URL = "https://youtu.be/";
 
-    public Trailers(String type, String key) {
-        this.type = type;
+    public Trailers(String name, String key) {
+        this.name = name;
         this.key = key;
     }
 
     protected Trailers(Parcel in) {
-        type = in.readString();
+        name = in.readString();
         key = in.readString();
         BASE_URL = in.readString();
     }
@@ -43,7 +43,7 @@ public class Trailers implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(type);
+        parcel.writeString(name);
         parcel.writeString(key);
         parcel.writeString(BASE_URL);
     }
