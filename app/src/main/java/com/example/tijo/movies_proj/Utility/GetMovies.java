@@ -2,6 +2,7 @@ package com.example.tijo.movies_proj.Utility;
 
 import com.example.tijo.movies_proj.data.Movie;
 import com.example.tijo.movies_proj.data.Reviews;
+import com.example.tijo.movies_proj.data.Trailers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +27,8 @@ public class GetMovies {
     public static ArrayList<Movie> currMovie;
 
     public static ArrayList<Reviews> currReview;
+
+    public static ArrayList<Trailers> currTrailer;
 
     //METHOD TO CONVERT JSON TO ARRAY
     public static ArrayList<Movie> movieToArray(String json) {
@@ -90,7 +93,7 @@ public class GetMovies {
                 JSONObject currObj = results.getJSONObject(i);
 
                 String author = currObj.getString("author");
-                String content = currObj.getString("overview");
+                String content = currObj.getString("content");
 
                 currReview.add(new Reviews(author, content));
 
@@ -101,5 +104,31 @@ public class GetMovies {
         }
 
         return currReview;
+    }
+
+
+    public static ArrayList<Trailers> tailersToArray(String json){
+        currTrailer = new ArrayList<>();
+        JSONObject reader = null;
+        try {
+            reader = new JSONObject(json);
+            JSONArray results = reader.getJSONArray("results");
+            //String result = results.toString();
+
+            //CONVERTING JSON AND POPULATING ARRAYLIST
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject currObj = results.getJSONObject(i);
+
+                String key = currObj.getString("key");
+                String type = currObj.getString("type");
+
+                currTrailer.add(new Trailers(type, key));
+
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return currTrailer;
     }
 }
