@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tijo.movies_proj.Adapters.MoviesAdapter;
+import com.example.tijo.movies_proj.Utility.CheckConn;
 import com.example.tijo.movies_proj.Utility.GetMovies;
 import com.example.tijo.movies_proj.data.Movie;
 import com.squareup.okhttp.Callback;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMovie() {
-        if (isConnected()) {
+        if (CheckConn.isConnected(this)) {
             getMovies();
         } else {
             recyclerView.setVisibility(View.INVISIBLE);
@@ -124,13 +125,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    //METHOD TO CHECK NETWORK CONNECTIVITY
-    private boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
     }
 
     //UPDATING UI
