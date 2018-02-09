@@ -8,4 +8,5 @@
     <string name="no_internet_connection">NO INTERNET CONNECTION</string>
     <string name="trailers_label">Trailers</string>
     <string name="reviewLabel">Review</string>
+    <string name="favoriatedMenu">Favoriated</string>
 </resources>

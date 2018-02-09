@@ -134,4 +134,5 @@ public class GetMovies {
         }
         return currTrailer;
     }
+
 }

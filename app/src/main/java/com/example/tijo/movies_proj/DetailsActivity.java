@@ -1,5 +1,7 @@
 package com.example.tijo.movies_proj;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
@@ -7,13 +9,17 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.tijo.movies_proj.Database.MoviesContract;
+import com.example.tijo.movies_proj.Utility.CheckConn;
 import com.example.tijo.movies_proj.Utility.GetMovies;
 import com.example.tijo.movies_proj.data.Movie;
 import com.example.tijo.movies_proj.data.Reviews;
@@ -34,6 +40,8 @@ public class DetailsActivity extends AppCompatActivity {
     //DATABINDING
     ActivityDetailsBinding detailsBinding;
 
+    Context context;
+
     public final String IMDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
     public final String APIKEY = "api_key=8628eac7c7875b9b1a42093545772f7b";
     public final String REVIEW_ADD = "/reviews?";
@@ -53,7 +61,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         //GETTING THE PARCELABLE'S
         Intent intent = getIntent();
-        Movie currMovie = intent.getParcelableExtra("Movie Item");
+        final Movie currMovie = intent.getParcelableExtra("Movie Item");
 
         // SETTING UP DATA IN THE VIEW USING THE BINDING
         detailsBinding = DataBindingUtil.setContentView(this, R.layout.activity_details);
@@ -76,10 +84,35 @@ public class DetailsActivity extends AppCompatActivity {
 
         getTrailers();
 
+        detailsBinding.favBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_MOVIE_ID, currMovie.getMovieId());
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_TITLE, currMovie.getTitle());
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_SYNOPSIS, currMovie.getSynopsis());
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_IMAGE_URL, currMovie.getImg_url());
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_RATING, currMovie.getRating());
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_RELEASE_DATE, currMovie.releaseDate);
+                contentValues.put(MoviesContract.MoviesEntry.COLUMN_IMAGE_URL_ORIGINAL, currMovie.getImgUrlOriginal());
+
+                Uri uri = getContentResolver().insert(MoviesContract.MoviesEntry.CONTENT_URI, contentValues);
+
+                if(uri !=null){
+                    Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_SHORT).show();
+                }
+                finish();
+            }
+        });
+
     }
 
     // OPEN OKHTTP AND GET THE REVIEWS WITH THE CURRENT MOVIE ID
     public void getReviews() {
+
+        currReviews = new ArrayList<>();
+        currReviews.clear();
+
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -90,6 +123,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Request request, IOException e) {
                 e.printStackTrace();
+                updateReviewList(currReviews);
             }
 
             @Override
@@ -145,6 +179,9 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void getTrailers(){
+        currTrailers = new ArrayList<>();
+        currTrailers.clear();
+
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -155,6 +192,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Request request, IOException e) {
                 e.printStackTrace();
+                updateTrailerList(currTrailers);
             }
 
             @Override
