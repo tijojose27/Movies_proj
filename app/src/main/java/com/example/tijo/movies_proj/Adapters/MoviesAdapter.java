@@ -22,6 +22,8 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
+
+    //MAIN ADAPTER TO SHOW THE MOVIES LIST
     private List<Movie> movieList;
     private Context mContext;
 
@@ -30,6 +32,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         mContext = context;
         this.movieList = movieList;
     }
+
 
     @Override
     public MoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,14 +64,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
         });
     }
 
+    //GETTING SIZE
     @Override
     public int getItemCount() {
-
         return movieList.size();
     }
 
     //CREATING VIEW HOLDER
-    class MoviesViewHolder extends RecyclerView.ViewHolder{
+    class MoviesViewHolder extends RecyclerView.ViewHolder {
 
         private final
 

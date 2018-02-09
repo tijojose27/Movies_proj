@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     //INSERT YOUR API KEY HERE
-    public final String APIKEY = "api_key=8628eac7c7875b9b1a42093545772f7b";
+    public final String APIKEY = "api_key=";
 
     public final String IMDB_BASE_URL = "http://api.themoviedb.org/3/movie/";
 

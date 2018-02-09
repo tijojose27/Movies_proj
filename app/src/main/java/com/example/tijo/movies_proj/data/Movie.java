@@ -7,6 +7,8 @@ import android.os.Parcelable;
  * Created by TIJO on 1/21/2018.
  */
 
+
+// CREATING A MOVIE CLASS AND USING PARCELBALE TO PASS IT TO DIFFERENT MEHTODS
 public class Movie implements Parcelable{
 
     public String movieId;
@@ -17,6 +19,7 @@ public class Movie implements Parcelable{
     public String releaseDate;
     public String imgUrlOriginal;
 
+    //CONSTRUCTOR
     public Movie(String movieId, String title, String synopsis, String img_url, Double rating, String releaseDate, String imgUrlOriginal) {
         this.movieId = movieId;
         this.title = title;
@@ -27,6 +30,7 @@ public class Movie implements Parcelable{
         this.imgUrlOriginal = imgUrlOriginal;
     }
 
+    // GETTERS
     public String getImgUrlOriginal() {
         return imgUrlOriginal;
     }
@@ -55,6 +59,7 @@ public class Movie implements Parcelable{
         return movieId;
     }
 
+    // IMPLEMENTING PARCELABLE REQUIRED METHODS
     protected Movie(Parcel in) {
         movieId = in.readString();
         title = in.readString();

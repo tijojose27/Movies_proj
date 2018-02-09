@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
  * Created by tijoj on 2/8/2018.
  */
 
+// CONTENT PROVIDER
 public class MovieContentProvider extends ContentProvider {
 
     public static final int MOVIES = 100;
@@ -29,11 +30,12 @@ public class MovieContentProvider extends ContentProvider {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
         uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES, MOVIES);
-        uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES+"#", MOVIES_WITH_ID);
+        uriMatcher.addURI(MoviesContract.AUTHORITY, MoviesContract.PATH_MOVIES + "/#", MOVIES_WITH_ID);
 
         return uriMatcher;
     }
 
+    // IMPLEMENTING REQURED CONTENTPROVIDER METHODS
     @Override
     public boolean onCreate() {
         Context context = getContext();
@@ -41,6 +43,7 @@ public class MovieContentProvider extends ContentProvider {
         return true;
     }
 
+    // QUERY METHOD
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
@@ -50,7 +53,7 @@ public class MovieContentProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         Cursor retCursor;
 
-        switch (match){
+        switch (match) {
             case MOVIES:
                 retCursor = db.query(MoviesContract.MoviesEntry.TABLE_NAME,
                         projection, selection, selectionArgs,
@@ -58,7 +61,7 @@ public class MovieContentProvider extends ContentProvider {
                 break;
 
             default:
-                throw new UnsupportedOperationException("Unknown uri : "+uri);
+                throw new UnsupportedOperationException("Unknown uri : " + uri);
         }
 
         retCursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -66,6 +69,7 @@ public class MovieContentProvider extends ContentProvider {
         return retCursor;
     }
 
+    // INSERTING INTO DATABASE
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues contentValues) {
@@ -75,18 +79,18 @@ public class MovieContentProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         Uri returnUri;
 
-        switch (match){
+        switch (match) {
             case MOVIES:
                 long id = db.insert(MoviesContract.MoviesEntry.TABLE_NAME, null, contentValues);
 
-                if(id>0){
+                if (id > 0) {
                     returnUri = ContentUris.withAppendedId(MoviesContract.MoviesEntry.CONTENT_URI, id);
-                }else {
-                    throw new android.database.SQLException("Failed to insert row into "+uri);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
                 }
                 break;
-        default:
-            throw new UnsupportedOperationException("Uknown uri "+uri);
+            default:
+                throw new UnsupportedOperationException("Uknown uri " + uri);
         }
 
         getContext().getContentResolver().notifyChange(uri, null);
@@ -94,6 +98,7 @@ public class MovieContentProvider extends ContentProvider {
         return returnUri;
     }
 
+    // DELETING FROM DATABASE
     @Override
     public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
 
@@ -108,7 +113,7 @@ public class MovieContentProvider extends ContentProvider {
 
                 String id = uri.getPathSegments().get(1);
 
-                moviesDeleted = db.delete(MoviesContract.MoviesEntry.TABLE_NAME, "_id=?", new String[]{id});
+                moviesDeleted = db.delete(MoviesContract.MoviesEntry.TABLE_NAME, "movieId = ?", new String[]{id});
 
                 break;
 
@@ -116,7 +121,7 @@ public class MovieContentProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Unknown uri : " + uri);
         }
 
-        if(moviesDeleted!=0){
+        if (moviesDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -124,7 +129,7 @@ public class MovieContentProvider extends ContentProvider {
 
     }
 
-
+    // THE METHODS BELOW ARE NOT USED SO HAVENT NEEDED TO IMPLEMENT IT
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
         throw new UnsupportedOperationException("Not update implementation needed");

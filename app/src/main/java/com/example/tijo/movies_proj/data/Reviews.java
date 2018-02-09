@@ -7,7 +7,8 @@ import android.os.Parcelable;
  * Created by tijoj on 2/5/2018.
  */
 
-public class Reviews implements Parcelable{
+// CREATING THE REVIEW CLASS AND IMPLEMENTING PARCELABLES
+public class Reviews implements Parcelable {
 
     public String author;
     public String content;

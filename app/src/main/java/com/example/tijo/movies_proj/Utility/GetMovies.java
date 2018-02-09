@@ -18,10 +18,13 @@ import java.util.ArrayList;
 
 public class GetMovies {
 
+    // BASE URL FOR IMAGE
     final static String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
 
+    //GETTING THE URL FOR THE THUMBNAIL IMAGE
     final static String IMAGE_THUMBNAIL = "w185/";
 
+    //GETTING THE URL FOR THE FULL SIZE IMAGE
     final static String IMAGE_ORIGINAL = "w780/";
 
     public static ArrayList<Movie> currMovie;
@@ -39,7 +42,6 @@ public class GetMovies {
         try {
             reader = new JSONObject(json);
             JSONArray results = reader.getJSONArray("results");
-            //String result = results.toString();
 
             //CONVERTING JSON AND POPULATING ARRAYLIST
             for (int i = 0; i < results.length(); i++) {
@@ -80,14 +82,13 @@ public class GetMovies {
     }
 
     //CONVERT REVIEW JSON TO ARRAY LIST
-    public static ArrayList<Reviews> reviewsToArray(String json){
+    public static ArrayList<Reviews> reviewsToArray(String json) {
         currReview = new ArrayList<>();
 
         JSONObject reader = null;
         try {
             reader = new JSONObject(json);
             JSONArray results = reader.getJSONArray("results");
-            //String result = results.toString();
 
             //CONVERTING JSON AND POPULATING ARRAYLIST
             for (int i = 0; i < results.length(); i++) {
@@ -107,15 +108,13 @@ public class GetMovies {
         return currReview;
     }
 
-
     //CONVERT TRAILER JSON TO ARRAY LIST
-    public static ArrayList<Trailers> tailersToArray(String json){
+    public static ArrayList<Trailers> tailersToArray(String json) {
         currTrailer = new ArrayList<>();
         JSONObject reader = null;
         try {
             reader = new JSONObject(json);
             JSONArray results = reader.getJSONArray("results");
-            //String result = results.toString();
 
             //CONVERTING JSON AND POPULATING ARRAYLIST
             for (int i = 0; i < results.length(); i++) {
@@ -123,7 +122,6 @@ public class GetMovies {
 
                 String key = currObj.getString("key");
                 String name = currObj.getString("name");
-
 
                 currTrailer.add(new Trailers(name, key));
 

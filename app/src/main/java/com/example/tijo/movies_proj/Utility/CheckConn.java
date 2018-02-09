@@ -10,10 +10,9 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
  * Created by tijoj on 2/8/2018.
  */
 
+//CLASS TO CHECK CONNECTIVITY
 public class CheckConn {
-
-    //CLASS TO CHECK CONNECTIVITY
-
+    //CHECK IF CONNECTED TO A NETWORK
     public static boolean isConnected(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
