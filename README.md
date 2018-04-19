@@ -5,6 +5,8 @@ Android Application that gets the latest movies from the web using Moviedb API. 
 ## Installation 
 git clone https://github.com/tijojose27/Movies_pro
 
+After cloning project the API key would have to be obtained from [ The MovieDB ](https://www.themoviedb.org/documentation/api) and added to the MainActivity under "INSERT YOUR API KEY HERE"
+
 
 # Images
 
